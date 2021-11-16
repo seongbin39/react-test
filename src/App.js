@@ -111,45 +111,45 @@ class App extends React.Component {
 //   }
 // }
 
-// class App extends React.Component {
-//   state = {
-//     open: false,
-//     msg: false 
-//   }
-//   // openModal = () => {
-//   //   this.setState({open: !this.state.open})
-//   // }
-//   openModal = () => {
-//     this.setState({open: true})
-//   }
-//   closeModal = () => {
-//     this.setState({open: false, msg: false})
-//   }
-//   removeModal = () => {
-//     this.setState({msg: true, open: false})
-//   }
-//   render() {
-//     const {open, msg} = this.state
-//     const {openModal, closeModal, removeModal} = this
-//     return (
-//       <>
-//         <Button handleClick={openModal}>할일 추가</Button>
-//         <Modal open={open}>
-//           <div className="header">할일을 추가 하시겠습니까?</div>
-//           <div className="body">
-//             <label>할일이름 :<input type="text"/></label><br/>
-//             <label>할일설명 :<input type="text"/></label>       
-//           </div>
-//           <div className="footer">
-//             <Button handleClick={removeModal}>Remove</Button>
-//             <Button handleClick={closeModal}>닫기</Button>
-//           </div>
-//         </Modal>
-//         <Modal open={msg}>remove successfully<Button handleClick={closeModal}>닫기</Button></Modal>
-//       </>
-//     )
-//   }
-// }
+class App extends React.Component {
+  state = {
+    open: false,
+    msg: false 
+  }
+  // openModal = () => {
+  //   this.setState({open: !this.state.open})
+  // }
+  openModal = () => {
+    this.setState({open: true})
+  }
+  closeModal = () => {
+    this.setState({open: false, msg: false})
+  }
+  removeModal = () => {
+    this.setState({msg: true, open: false})
+  }
+  render() {
+    const {open, msg} = this.state
+    const {openModal, closeModal, removeModal} = this
+    return (
+      <>
+        <Button handleClick={openModal}>할일 추가</Button>
+        <Modal open={open}>
+          <div className="header">할일을 추가 하시겠습니까?</div>
+          <div className="body">
+            <label>할일이름 :<input type="text"/></label><br/>
+            <label>할일설명 :<input type="text"/></label>       
+          </div>
+          <div className="footer">
+            <Button handleClick={removeModal}>Remove</Button>
+            <Button handleClick={closeModal}>닫기</Button>
+          </div>
+        </Modal>
+        <Modal open={msg}>remove successfully<Button handleClick={closeModal}>닫기</Button></Modal>
+      </>
+    )
+  }
+}
 
 // class App extends React.Component{
 //   state={
@@ -241,43 +241,44 @@ class App extends React.Component {
 //   }
 // }
 
-// class App extends React.Component {
-//   state = {
-//     count : 0
-//   }
+class App extends React.Component {
+  state = {
+    count : 0
+  }
 
-//   showUI = (cnt) => {
-//     let ui = null;
-//     switch(cnt) {
-//       case 0:
-//         ui = <h1>Home</h1>
-//         break;
-//       case 1:
-//         ui = <h1>About</h1>
-//         break;
-//       case 2:
-//         ui = <h1>Detail</h1>
-//         break;
-//       default:
-//         ui = <h1>Not Found</h1>
-//     }
-//     return ui
-//   }
+  showUI = (cnt) => {
+    let ui = null;
+    switch(cnt) {
+      case 0:
+        ui = <h1>Home</h1>
+        break;
+      case 1:
+        ui = <h1>About</h1>
+        break;
+      case 2:
+        ui = <h1>Detail</h1>
+        break;
+      default:
+        ui = <h1>Not Found</h1>
+    }
+    return ui
+  }
 
-//   increase = () => {
-//     this.setState({count: this.state.count + 1})
-//   }
+  increase = () => {
+    this.setState({count: this.state.count + 1})
+    console.log(this.state.count)
+  }
 
-//   render() {
-//     const {count} = this.state
-//     return (
-//       <>
-//       {this.showUI(count)}
-//       <button type="button" onClick={this.increase}>Increase</button>
-//       </>
-//     )
-//   }
-// }
+  render() {
+    const {count} = this.state
+    return (
+      <>
+      {this.showUI(count)}
+      <button type="button" onClick={this.increase}>Increase</button>
+      </>
+    )
+  }
+}
 
 // class App extends React.Component {
 //   constructor(props) {
