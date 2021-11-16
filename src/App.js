@@ -4,47 +4,294 @@ import React from 'react';
 // import dummyData from './generatedRandom';
 // import Dictionary from './Dictionary';
 // import Movie from './Movie';
-import dummy from './dummyData';
+// import dummy from './dummyData';
 import Button from './Button';
-import Word from './Word';
+// import Word from './Word';
 // import Nav from './Nav';
 // import Modal from './Modal';
 // import Card from './Card';
 // import CustomInput from './CustomInput'
+// import images from './imgData'
+// import Sidebar from './Sidebar'
+// import youtubeVideos from './YoutubeVideos';
+
+// import loginData from './loginData';
+
+// class App extends React.Component {
+//   state ={
+//     index: 0,
+//   }
+
+//   increaseIndex = () => {
+//     const nextIndex = this.state.index +1
+//     this.setState({index: (nextIndex > youtubeVideos.length -1 ) ? 0 : nextIndex})
+//   }
+
+//   decreaseIndex = () => {
+//     const prevIndex = this.state.index -1
+//     this.setState({index: (prevIndex < 0) ? youtubeVideos.length -1 : prevIndex})
+//   }
+
+//   render() {
+//     const {index} = this.state
+//     const {increaseIndex, decreaseIndex} = this
+//     const Path = youtubeVideos[index].src
+//     const Title = youtubeVideos[index].title
+//     return (
+//       <div className="App">
+//         <h1>{Title}</h1>
+//         <iframe className="Video" width="560" height="315" src={Path} title={Title} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+        
+//         <div className="control-btns">
+//           <Button handleClick={decreaseIndex}>Prev</Button>
+//           <Button handleClick={increaseIndex}>Next</Button>
+//         </div>
+//       </div>
+//     )
+//   }
+// }
 
 class App extends React.Component {
-  state = {
-    words: dummy,
-    toggle: true
+  constructor(props) {
+    super(props)
+    this.state = {
+      // fileName: '', 
+      // imgSrc: '',
+      files: []
+    }
+    this.fileInput = React.createRef()
   }
-  screenMode = () => {
-    this.setState({toggle: !this.state.toggle})
-  }
-  // 삭제하는 이벤트핸들러 함수
-  handleRemove = (id, e) => {
-    console.log(id)
-    console.log(e.target.previousSibling.innerText)
-    const word = e.target.previousSibling.innerText
-    alert(`You want delete word - ${word}?`)
 
-    // 단어 제거
-    const word_filtered = this.state.words.filter( (w, index) => index !== id)
-    this.setState({words: word_filtered})
+  openFileWindow = () => {
+    this.fileInput.current.click()
   }
+
+  isValid = (type) => {
+    return type === 'image'
+  }
+
+  handleChange = (e) => {
+    const files = e.target.files
+    const uploadedFiles = [] // 빈 배열 생성
+
+    for(let file of files) {
+      if(this.isValid(file.type.split('/')[0])) {
+        const name = file.name
+        const imgPath = URL.createObjectURL(file)
+        uploadedFiles.push({name, imgPath})
+      }else{
+        alert(`file [${file.name}] type is not valid`)
+      }
+    }
+    this.setState({files:uploadedFiles})
+
+    // console.log(e.target.files.length)
+    // const file = e.target.files[0] // 배열이기 때문
+    // const imgPath = URL.createObjectURL(file) // file 데이터 -> blob
+    // console.log(imgPath)
+    // const type = file.type.split('/')[0]  // ["image", "png"]
+
+    // // 파일 유효성 검사
+    // if(this.isValid(type)){
+    //   this.setState({fileName: file.name, imgSrc: imgPath})
+    // }else{
+    //   this.setState({fileName: 'File is not valid type!', imgSrc: ''})
+    // }
+  }
+
   render() {
-    const { words } = this.state
+    // const {fileName, imgSrc} = this.state
+    const {files} = this.state
     return (
-      <div>
-        <h1>영단어 목록</h1>
-        {words.map( (w, id) => {
+      <div className="App">
+        {files.length !== 0 && files.map( (file, id) => {
           return (
-            <Word key={id} w={w} handleRemove={(e) => this.handleRemove(id, e)}></Word>
+            <div key={id}>
+            <h1>{file.name}</h1>
+            <img src={file.imgPath} alt={file.name} width="70px" height="70px"></img>
+            </div>
           )
         })}
+        {/* {imgSrc !== '' &&<img src={imgSrc} alt="img" width="300px" height="400px"></img> } */}
+        <input className="Upload" type="file" onChange={this.handleChange} ref={this.fileInput} accept="image/*" multiple></input>
+        <Button handleClick={this.openFileWindow}>업로드</Button>
       </div>
     )
   }
 }
+
+// class App extends React.Component {
+//   state={
+//     id: '',
+//     password: '',
+//     toggle: false,
+//     isLogin: false,
+//     open: false,
+//   }
+
+//   toggleMenu = () => {
+//     this.setState({toggle: !this.state.toggle})
+//   }
+//   handleChange = (e) => {
+//     // console.log(e.target.name, e.target.value)
+//     const {name, value} = e.target
+//     this.setState({ [name]: value})
+//   }
+//   login = (e) => { 
+//     e.preventDefault() // 새로고침 방지 
+//     const id = loginData[0].USER_ID
+//     const password = loginData[0].USER_PASSWORD
+//     // const {id, password} = this.state
+
+//     if(this.state.id !== id) {
+//       //alert('you failed to login, check your ID')
+//       this.openModal()
+//     }else if(this.state.password !== password){
+//       //alert('you failed to login, check your Password')
+//       this.openModal()
+//     }
+//     else {
+//       this.setState({isLogin: true})
+//     }
+//   }
+
+//   openModal = () => {
+//     this.setState({open: true})
+//   }
+
+//   closeModal = () => {
+//     this.setState({open: false})
+//   }
+
+//   removeModal = () => {
+//     this.setState({open:false})
+//   }
+
+//   closeModal = () => {
+//     this.setState({open:false})
+//   }
+
+//   render() {
+//     console.log(loginData[0].USER_ID, loginData[0].USER_PASSWORD)
+//     const {id, password, isLogin, open} = this.state
+//     const {removeModal, closeModal} = this
+//     const loginForm = (
+//       <form>
+//         <label>ID <input name="id" value={id} type="text" placeholder="Enter your Id" onChange={this.handleChange}></input></label><br/>
+//         <label>Password <input name="password" value={password} type="password" placeholder="Enter your Password" onChange={this.handleChange}></input></label>
+//         <div className="login-btn"><Button handleClick={this.login}>Login</Button></div>
+//         <Modal open={open}>
+//           <div className="header">로그인 실패</div>
+//           <div className="footer">
+//             <Button handleClick={closeModal}>닫기</Button>
+//           </div>
+//         </Modal>
+//       </form>
+//     )
+//     const homePage = (
+//       <h1>홈페이지</h1>
+//     )
+//     return (
+//       <div className="App">
+//         {isLogin? homePage:loginForm}
+//       </div>
+//     )
+//   }
+// }
+
+// class App extends React.Component {
+//   state = {
+//     index: 0,
+//     toggle: false,
+//     menus: [ 
+//       { icon: '♜', title: 'HOME' }, 
+//       { icon: '♞', title: 'ABOUT' }, 
+//       { icon: '☻', title: 'SETTING' }, 
+//       { icon: '♜', title: 'HOME' }, 
+//       { icon: '♞', title: 'ABOUT' }, 
+//       { icon: '☻', title: 'SETTING' } 
+//     ]
+//   }
+
+//   // 토글 사이드바
+//   toggleMenu = () => {
+//     this.setState({toggle: !this.state.toggle})
+//   }
+
+//   increaseIndex = () => {
+//     const nextIndex = this.state.index +1
+//     this.setState({index: (nextIndex > images.length -1 ) ? 0 : nextIndex})
+//   }
+
+//   decreaseIndex = () => {
+//     const prevIndex = this.state.index -1
+//     this.setState({index: (prevIndex < 0) ? images.length -1 : prevIndex})
+//   }
+
+//   render() {
+//     const {index, toggle, menus} = this.state
+//     const {increaseIndex, decreaseIndex} = this
+//     const path = images[index].src
+//     const title = images[index].title
+
+//     return (
+//       <div className="App">
+//         <Button handleClick={this.toggleMenu}>Open Sidebar</Button>
+//         <Sidebar open={toggle}>
+//           {menus.map( (menu, id) => {
+//             return (
+//               <div className="menu" key={id}>{menu.icon} {menu.title}</div>
+//             )
+//           })}
+//         </Sidebar>
+
+//         <div className="img-container">
+//           <img src={path} alt={title}></img>
+//         </div>
+
+//         <div className="control-btns">
+//           <Button handleClick={decreaseIndex}>Prev</Button>
+//           <Button handleClick={increaseIndex}>Next</Button>
+//         </div>
+
+//       </div>
+//     )
+//   }
+// }
+
+// class App extends React.Component {
+//   state = {
+//     words: dummy,
+//     toggle: true
+//   }
+//   screenMode = () => {
+//     this.setState({toggle: !this.state.toggle})
+//   }
+//   // 삭제하는 이벤트핸들러 함수
+//   handleRemove = (id, e) => {
+//     console.log(id)
+//     console.log(e.target.previousSibling.innerText)
+//     const word = e.target.previousSibling.innerText
+//     alert(`You want delete word - ${word}?`)
+
+//     // 단어 제거
+//     const word_filtered = this.state.words.filter( (w, index) => index !== id)
+//     this.setState({words: word_filtered})
+//   }
+//   render() {
+//     const { words } = this.state
+//     return (
+//       <div>
+//         <h1>영단어 목록</h1>
+//         {words.map( (w, id) => {
+//           return (
+//             <Word key={id} w={w} handleRemove={(e) => this.handleRemove(id, e)}></Word>
+//           )
+//         })}
+//       </div>
+//     )
+//   }
+// }
 
 // 다크 모드
 // class App extends React.Component {
@@ -111,45 +358,45 @@ class App extends React.Component {
 //   }
 // }
 
-class App extends React.Component {
-  state = {
-    open: false,
-    msg: false 
-  }
-  // openModal = () => {
-  //   this.setState({open: !this.state.open})
-  // }
-  openModal = () => {
-    this.setState({open: true})
-  }
-  closeModal = () => {
-    this.setState({open: false, msg: false})
-  }
-  removeModal = () => {
-    this.setState({msg: true, open: false})
-  }
-  render() {
-    const {open, msg} = this.state
-    const {openModal, closeModal, removeModal} = this
-    return (
-      <>
-        <Button handleClick={openModal}>할일 추가</Button>
-        <Modal open={open}>
-          <div className="header">할일을 추가 하시겠습니까?</div>
-          <div className="body">
-            <label>할일이름 :<input type="text"/></label><br/>
-            <label>할일설명 :<input type="text"/></label>       
-          </div>
-          <div className="footer">
-            <Button handleClick={removeModal}>Remove</Button>
-            <Button handleClick={closeModal}>닫기</Button>
-          </div>
-        </Modal>
-        <Modal open={msg}>remove successfully<Button handleClick={closeModal}>닫기</Button></Modal>
-      </>
-    )
-  }
-}
+// class App extends React.Component {
+//   state = {
+//     open: false,
+//     msg: false 
+//   }
+//   // openModal = () => {
+//   //   this.setState({open: !this.state.open})
+//   // }
+//   openModal = () => {
+//     this.setState({open: true})
+//   }
+//   closeModal = () => {
+//     this.setState({open: false, msg: false})
+//   }
+//   removeModal = () => {
+//     this.setState({msg: true, open: false})
+//   }
+//   render() {
+//     const {open, msg} = this.state
+//     const {openModal, closeModal, removeModal} = this
+//     return (
+//       <>
+//         <Button handleClick={openModal}>할일 추가</Button>
+//         <Modal open={open}>
+//           <div className="header">할일을 추가 하시겠습니까?</div>
+//           <div className="body">
+//             <label>할일이름 :<input type="text"/></label><br/>
+//             <label>할일설명 :<input type="text"/></label>       
+//           </div>
+//           <div className="footer">
+//             <Button handleClick={removeModal}>Remove</Button>
+//             <Button handleClick={closeModal}>닫기</Button>
+//           </div>
+//         </Modal>
+//         <Modal open={msg}>remove successfully<Button handleClick={closeModal}>닫기</Button></Modal>
+//       </>
+//     )
+//   }
+// }
 
 // class App extends React.Component{
 //   state={
@@ -241,44 +488,44 @@ class App extends React.Component {
 //   }
 // }
 
-class App extends React.Component {
-  state = {
-    count : 0
-  }
+// class App extends React.Component {
+//   state = {
+//     count : 0
+//   }
 
-  showUI = (cnt) => {
-    let ui = null;
-    switch(cnt) {
-      case 0:
-        ui = <h1>Home</h1>
-        break;
-      case 1:
-        ui = <h1>About</h1>
-        break;
-      case 2:
-        ui = <h1>Detail</h1>
-        break;
-      default:
-        ui = <h1>Not Found</h1>
-    }
-    return ui
-  }
+//   showUI = (cnt) => {
+//     let ui = null;
+//     switch(cnt) {
+//       case 0:
+//         ui = <h1>Home</h1>
+//         break;
+//       case 1:
+//         ui = <h1>About</h1>
+//         break;
+//       case 2:
+//         ui = <h1>Detail</h1>
+//         break;
+//       default:
+//         ui = <h1>Not Found</h1>
+//     }
+//     return ui
+//   }
 
-  increase = () => {
-    this.setState({count: this.state.count + 1})
-    console.log(this.state.count)
-  }
+//   increase = () => {
+//     this.setState({count: this.state.count + 1})
+//     console.log(this.state.count)
+//   }
 
-  render() {
-    const {count} = this.state
-    return (
-      <>
-      {this.showUI(count)}
-      <button type="button" onClick={this.increase}>Increase</button>
-      </>
-    )
-  }
-}
+//   render() {
+//     const {count} = this.state
+//     return (
+//       <>
+//       {this.showUI(count)}
+//       <button type="button" onClick={this.increase}>Increase</button>
+//       </>
+//     )
+//   }
+// }
 
 // class App extends React.Component {
 //   constructor(props) {
