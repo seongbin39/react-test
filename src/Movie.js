@@ -1,12 +1,12 @@
 import React from 'react';
 
-function Movie({title, genres, small_cover_image, summary}){
+function Movie({...rest}){
     return(
         <div>
-            <img src={small_cover_image} alt={title}></img>
-            <h3>{title}</h3>
-            <h4>{genres.join('')}</h4>
-            <p>{summary}</p>
+            <img src={rest.cover} alt={rest.title}></img>
+            <h3>{rest.title}</h3>
+            <h4>{rest.genres.join('')}</h4>
+            <p>{rest.summary}</p>
         </div>
     )
 }
